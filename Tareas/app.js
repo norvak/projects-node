@@ -2,6 +2,7 @@
 
 //const argv = require('yargs').argv;
 const argv = require('./config/yargs').argv;
+const colors = require('colors');
 
 const toDone = require('./to-done/to-done');
 
@@ -12,17 +13,28 @@ switch( command) {
     case 'create':
             let task = toDone.create( argv.description );
             console.log(task);
-           // console.log('Create by doing');
-    break;
+        break;
 
-    case 'list':
-            console.log('Show all tasks to be done');
-    break;
+    case 'listing':
+            let listing = toDone.list(); 
+            for (let list of listing) {
+                console.log('###### TO DONE #######'.green);
+                console.log(list.description);
+                console.log('status: ', list.completed);
+                console.log('######################'.green);    
+            }   
+        break;
 
     case 'update':
-            console.log('Update a task to be done');
-    break;
+            let updating = toDone.update(argv.description, argv.completed);
+            console.log(updating);
+        break;
 
+    case 'deleted':
+            let deleting = toDone.deleted(argv.description);
+            console.log(deleting);
+        break;
+        
     default:
             console.log('Command is unknown');
 
